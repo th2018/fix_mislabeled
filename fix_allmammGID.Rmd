@@ -1,0 +1,24 @@
+---
+title: "fix allmammGID"
+author: "Tao Huang"
+date: "August 12, 2019"
+output: html_document
+---
+
+```{r}
+#read the table
+allmammGID<-read.csv("C:/Users/huangt/Documents/allmammGID-clean.csv")
+
+#find the species with label 0 and 1 (the reservoir species with label 0)
+allmammGID_pn<-unique(allmammGID[,c("Spp", "Label")])
+count<-as.data.frame(table (allmammGID_pn$Spp ))
+count2<-count[count$Freq>1 ,]
+
+#remove the reservoir species with label 0
+allmammGID_rm_duplicate<-allmammGID[ !(allmammGID$Spp%in% count2$Var1==T & allmammGID$Label==0) ,]
+
+write.csv(allmammGID_rm_duplicate,file="C:/Users/huangt/Documents/allmammGID-clean20190812.csv")
+
+```
+
+
